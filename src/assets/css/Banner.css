@@ -1,0 +1,27 @@
+.banner {
+    position: relative;
+    background: #333;
+    color: #fff;
+    padding: 100px 0;
+    text-align: center;
+  }
+  
+  .banner h1 {
+    font-size: 3em;
+    margin: 20px 0;
+  }
+  
+  .book-btn .table-btn {
+    padding: 12px 30px;
+    background-color: #e75b1e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+  }
+  
+  .book-btn .table-btn:hover {
+    background-color: #d64b1a;
+  }
+  

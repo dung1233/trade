@@ -1,0 +1,86 @@
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+  }
+  
+  .store-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .store-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .store-item:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .store-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .store-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+  }
+  
+  .store-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .store-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .store-address {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .store-status {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .store-status.open {
+    color: green;
+  }
+  
+  .store-status.closed {
+    color: #ccc;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  

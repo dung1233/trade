@@ -1,0 +1,610 @@
+.test-page body {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+/* Định dạng cho nút */
+.test-page .button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+/* Định dạng cho popup */
+.test-page .popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.test-page .popup {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 600px;
+}
+
+.test-page .popup h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+}
+
+.test-page input[type="text"],
+.test-page input[type="date"],
+.test-page input[type="time"],
+.test-page input[type="number"],
+.test-page select {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  /* margin-bottom: 15px; */
+  box-sizing: border-box;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.test-page input:focus {
+  border-color: #007bff;
+}
+
+.test-page button {
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.test-page button:focus {
+  outline: none;
+}
+
+.test-page button.green {
+  background-color: #28a745;
+  color: white;
+}
+
+.test-page button.red {
+  background-color: #ccc;
+  color: white;
+}
+
+.test-page button.green:hover {
+  background-color: #218838;
+}
+
+.test-page button.red:hover {
+  background-color: #b1b1b1;
+}
+
+
+.test-page .popup.show {
+  display: block;
+  width: 800px;
+  height: 80%;
+}
+
+.test-page .popupa {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.test-page .popupa.show {
+  display: flex;
+}
+
+/* Định dạng cho nền tối khi popup mở */
+.test-page .overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Phần danh sách món ăn */
+.test-page .menu {
+  flex-grow: 1;
+  height: 80%;
+  padding: 20px;
+  background-color: #f4f4f9;
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); */
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.test-page .menu-item {
+  background-color: #ffffff;
+  /* min-height: 250px;
+  max-height: 250px; */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.test-page .menu-item img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+.test-page .menu-item p {
+  margin: 5px 0;
+  height: 25px;
+  overflow: hidden;
+}
+
+.test-page .menu-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-color:#f39b1cd4 ;
+}
+
+/* Phần giỏ hàng */
+.test-page .order {
+  height: 100%;
+  padding: 20px 20px 0 20px;
+  background-color: #ffffff;
+  border-left: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.test-page .order h2 {
+  margin-bottom: 10px;
+}
+
+.test-page .order-list {
+  width: 90%;
+  flex-grow: 1;
+  color: #333;
+  /* display: flex; */
+  flex-direction: column;
+  align-items: flex-start;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  overflow-y: auto;
+}
+
+/* Phần tổng tiền và nút xác nhận */
+.test-page .total-section {
+  margin-top: auto;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 18px;
+}
+
+.test-page .total-section p {
+  margin-bottom: 10px;
+  
+}
+
+.test-page .confirm-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.test-page .cancel-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Nút đóng popup */
+.test-page .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.test-page input#searchInput {
+  margin: 10px;
+}
+
+.test-page .logo {
+  height: 150px;
+  text-align: center;
+}
+
+.test-page .top {
+  width: 100%;
+  background-color: #f39b1cd4;
+  display: flex;
+  overflow-x: hidden; /* Cho phép cuộn ngang */
+  white-space: nowrap;
+  padding: 10px;
+  border: 1px solid #ddd;
+  cursor: grab; /* Đổi con trỏ khi chưa kéo */
+  margin-top: auto;
+  -webkit-overflow-scrolling: touch; /* Cuộn mượt mà trên thiết bị di động */
+  scroll-behavior: smooth; /* Cuộn mượt mà */
+}
+
+.test-page .select {
+  min-width: 200px;
+  margin-right: 16px;
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+.test-page button.buttona {
+  border: none;
+  background-color: transparent;
+  /* Loại bỏ nền hoàn toàn */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: none;
+  /* Loại bỏ đổ bóng */
+  transition: background-color 0.3s ease;
+}
+
+.test-page button.buttona:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  /* Màu nền nhẹ khi hover, có thể bỏ nếu muốn */
+  width: 100%;
+}
+
+.test-page button.buttona img {
+  margin-bottom: 5px;
+  background-color: transparent;
+  /* Đảm bảo nền của ảnh cũng trong suốt */
+}
+
+.test-page .search {
+  background-color: #f39b1cd4;
+}
+
+/* Định dạng cho popup xác nhận */
+.test-page .popupc {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  max-width: 600px;
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.test-page .container {
+  max-width: 600px;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px 40px;
+}
+
+.test-page h2 {
+  text-align: center;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+.test-page p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  /* font-size: 0.9em; */
+}
+
+.test-page .selection-boxes {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.test-page .selection-box {
+  width: 48%;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.test-page .selection-box.active {
+  border-color: #5A67D8;
+  color: #5A67D8;
+}
+
+.test-page .selection-box.active .icon {
+  color: #5A67D8;
+}
+
+.test-page .icon {
+  font-size: 1.5em;
+  margin-bottom: 5px;
+  color: #888;
+}
+
+.test-page .selection-box p {
+  font-size: 0.8em;
+  color: #888;
+}
+
+.test-page .form-group {
+  margin-bottom: 15px;
+}
+
+.test-page .form-group label {
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.test-page .form-group input, .form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.9em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.test-page .actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.test-page .button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.test-page .submit-button {
+  background-color: #5A67D8;
+  color: white;
+}
+
+.test-page .cancel-button {
+  background-color: #ccc;
+  color: white;
+}
+.test-page .store-list {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.test-page .store-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.test-page .store-item:hover {
+  background-color: #f39b1cd4;
+}
+
+.store-link.selected .store-item {
+  background-color: #f39b1cd4;  /* Màu nền sáng lên khi chọn */
+}
+
+.test-page .store-item:last-child {
+  border-bottom: none;
+}
+
+.test-page .store-info {
+  display: flex;
+  align-items: center;  
+  gap: 10px;
+}
+
+.test-page .store-info img {
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.test-page .store-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.test-page .store-name {
+  font-weight: bold;
+  font-size: 1em;
+  color: #333;
+}
+
+.test-page .store-address {
+  font-size: 0.9em;
+  color: #888;
+}
+
+.test-page .store-status {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.test-page .open {
+  color: green;
+}
+
+.test-page .closed {
+  color: #ccc;
+}
+.test-page .opp{
+  display: flex;
+  justify-content: space-between;
+}
+.test-page .store-link {
+  text-decoration: none;
+  display: block;
+  margin-bottom: 20px;
+}
+.test-page .section {
+  margin-bottom: 20px;
+}
+
+.test-page .section-title {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.test-page .options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.test-page .option {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  min-width: 60px;
+  transition: 0.3s;
+}
+
+.test-page .option.selected {
+  background-color: #153769;
+  color: white;
+  border-color: #153769;
+}
+
+.test-page .option.selected:after {
+  content: '✔';
+  margin-left: 5px;
+  color: #33CC33;
+}
+.col-lg-8 {
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+}
+
+.total-section button {
+  width: 45%;
+}
+.total-section .confirm-order {
+  color: white;
+  background-color: #f39b1cd4;
+}
+
+.popup-confirm {
+  position: fixed;
+  right: -100%; /* Bắt đầu ngoài màn hình */
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  transition: transform 0.3s ease-in-out; /* Hiệu ứng trượt */
+}
+
+.popup-confirm.show {
+  transform: translateX(-100%); /* Trượt vào màn hình */
+}
+
+.image-container {
+  position: relative;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px; /* Tùy chỉnh bo góc */
+}
+
+.price-badge {
+  min-width: 30px;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: rgba(255, 136, 0, 0.6); /* Màu nền với độ trong suốt */
+  color: white;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.size-buttons button {
+  padding: 6px 20px;
+  background-color: rgba(179, 167, 167, 0.514);
+  margin-left: 5px;
+}
+
+.selected-border {
+  border-color: #f39b1cd4 !important;
+}
+
+.size-button.active-size {
+  background-color: #f39b1cd4; /* Màu nền khi chọn */
+  color: white;
+}

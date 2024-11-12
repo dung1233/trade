@@ -1,0 +1,150 @@
+const menuItems = [
+    // STARTERS
+    {
+        id: 1,
+        name: "Spring Rolls",
+        type: "STARTERS",
+        category: "Asian",
+        description: "Crispy spring rolls filled with vegetables.",
+        price: 5.5,
+        image: "images/spring-rolls.jpg"
+    },
+    {
+        id: 2,
+        name: "Bruschetta",
+        type: "STARTERS",
+        category: "European",
+        description: "Grilled bread topped with tomatoes, garlic, and basil.",
+        price: 6.0,
+        image: "images/bruschetta.jpg"
+    },
+    {
+        id: 3,
+        name: "Vegetable Samosas",
+        type: "STARTERS",
+        category: "Vegetarian",
+        description: "Spiced potatoes and peas wrapped in pastry.",
+        price: 4.5,
+        image: "images/samosas.jpg"
+    },
+    {
+        id: 4,
+        name: "Local Fried Tofu",
+        type: "STARTERS",
+        category: "Local",
+        description: "Crispy fried tofu served with dipping sauce.",
+        price: 5.0,
+        image: "images/fried-tofu.jpg"
+    },
+    // MAIN DISHES
+    {
+        id: 5,
+        name: "Pad Thai",
+        type: "MAIN DISHES",
+        category: "Asian",
+        description: "Stir-fried rice noodle dish with shrimp and peanuts.",
+        price: 10.0,
+        image: "images/pad-thai.jpg"
+    },
+    {
+        id: 6,
+        name: "Lasagna",
+        type: "MAIN DISHES",
+        category: "European",
+        description: "Layers of pasta with meat sauce and cheese.",
+        price: 12.0,
+        image: "images/lasagna.jpg"
+    },
+    {
+        id: 7,
+        name: "Vegetable Curry",
+        type: "MAIN DISHES",
+        category: "Vegetarian",
+        description: "Mixed vegetables cooked in a spicy coconut sauce.",
+        price: 9.5,
+        image: "images/vegetable-curry.jpg"
+    },
+    {
+        id: 8,
+        name: "Grilled Fish",
+        type: "MAIN DISHES",
+        category: "Local",
+        description: "Locally sourced fish grilled to perfection.",
+        price: 14.0,
+        image: "images/grilled-fish.jpg"
+    },
+    // DESERTS
+    {
+        id: 9,
+        name: "Chocolate Mousse",
+        type: "DESERTS",
+        category: "European",
+        description: "Rich chocolate mousse topped with whipped cream.",
+        price: 6.5,
+        image: "images/chocolate-mousse.jpg"
+    },
+    {
+        id: 10,
+        name: "Fruit Salad",
+        type: "DESERTS",
+        category: "Vegetarian",
+        description: "A refreshing mix of seasonal fruits.",
+        price: 5.0,
+        image: "images/fruit-salad.jpg"
+    },
+    {
+        id: 11,
+        name: "Mango Sticky Rice",
+        type: "DESERTS",
+        category: "Asian",
+        description: "Sweet mango served with sticky rice and coconut milk.",
+        price: 7.0,
+        image: "images/mango-sticky-rice.jpg"
+    },
+    {
+        id: 12,
+        name: "Local Custard",
+        type: "DESERTS",
+        category: "Local",
+        description: "Creamy custard with local flavors.",
+        price: 4.5,
+        image: "images/local-custard.jpg"
+    },
+    // DRINKS
+    {
+        id: 13,
+        name: "Iced Tea",
+        type: "DRINKS",
+        category: "Local",
+        description: "Refreshing iced tea with lemon.",
+        price: 3.0,
+        image: "images/iced-tea.jpg"
+    },
+    {
+        id: 14,
+        name: "Espresso",
+        type: "DRINKS",
+        category: "European",
+        description: "Strong and rich espresso coffee.",
+        price: 2.5,
+        image: "images/espresso.jpg"
+    },
+    {
+        id: 15,
+        name: "Fruit Smoothie",
+        type: "DRINKS",
+        category: "Vegetarian",
+        description: "A smoothie made with fresh fruits.",
+        price: 4.0,
+        image: "images/fruit-smoothie.jpg"
+    },
+    {
+        id: 16,
+        name: "Coconut Water",
+        type: "DRINKS",
+        category: "Asian",
+        description: "Fresh coconut water served chilled.",
+        price: 3.5,
+        image: "images/coconut-water.jpg"
+    },
+];

@@ -205,8 +205,8 @@ export default function Banner({ onClose }) {
         };
       case 3:
         return {
-          width: '80%',
-          maxWidth: '1550px',
+          width: '100%',
+          maxWidth: '1800px',
           padding: '40px',
         };
       default:
@@ -330,24 +330,44 @@ export default function Banner({ onClose }) {
 
   // Hàm chọn bàn và tự tính số bàn
   const selectTable = (table) => {
-    const numPeople = reservationDetails.numPeople || 0; // Lấy số người hiện tại
-    const peoplePerTable = table === 6 ? 6 : 8;          // Số người mỗi bàn
-    const numTables = Math.ceil(numPeople / peoplePerTable); // Tính số bàn
+    const numPeople = reservationDetails.numPeople || 0; // Số người hiện tại
+    let peoplePerTable;
 
-    updateReservationDetails('table', table);
-    updateReservationDetails('numTables', numTables);
+    // Quy định số người mỗi bàn
+    if (table === 6) {
+      peoplePerTable = 6;
+    } else if (table === 8) {
+      peoplePerTable = 8;
+    } else if (table === 10) {
+      peoplePerTable = 10;
+    }
+
+    const numTables = Math.ceil(numPeople / peoplePerTable); // Tính số bàn cần thiết
+    updateReservationDetails('table', table); // Cập nhật loại bàn
+    updateReservationDetails('numTables', numTables); // Cập nhật số bàn
   };
+
 
   // Hàm xử lý khi thay đổi số người
   const handleNumPeopleChange = (value) => {
-    const numPeople = Number(value) || 0;                 // Giá trị người dùng nhập
-    const table = reservationDetails.table;              // Loại bàn hiện tại
-    const peoplePerTable = table === 6 ? 6 : 8;          // Số người mỗi bàn
-    const numTables = table ? Math.ceil(numPeople / peoplePerTable) : 1; // Tính số bàn nếu đã chọn loại bàn
+    const numPeople = Number(value) || 0; // Số người hiện tại
+    const table = reservationDetails.table; // Loại bàn hiện tại
+    let peoplePerTable;
 
-    updateReservationDetails('numPeople', numPeople);
+    // Quy định số người mỗi bàn
+    if (table === 6) {
+      peoplePerTable = 6;
+    } else if (table === 8) {
+      peoplePerTable = 8;
+    } else if (table === 10) {
+      peoplePerTable = 10;
+    }
+
+    const numTables = table ? Math.ceil(numPeople / peoplePerTable) : 1; // Tính số bàn
+    updateReservationDetails('numPeople', numPeople); // Cập nhật số người
     if (table) updateReservationDetails('numTables', numTables); // Cập nhật số bàn nếu đã chọn bàn
   };
+
 
   // Hàm chuyển popup
   const goToNextPopup = () => {
@@ -824,6 +844,24 @@ export default function Banner({ onClose }) {
                                   <strong>Bàn 8</strong>
                                   <p>Phù hợp cho công ty</p>
                                 </div>
+                                <div
+                                  onClick={() => selectTable(10)}
+                                  style={{
+                                    border: reservationDetails.table === 10 ? '2px solid #3b82f6' : '2px solid #e0e0e0',
+                                    padding: '20px',
+                                    borderRadius: '8px',
+                                    textAlign: 'center',
+                                    width: '365px',
+                                    color: 'black',
+                                    cursor: 'pointer',
+                                    backgroundColor: reservationDetails.table === 10 ? '#e0f0ff' : 'white',
+                                  }}
+                                >
+                                  <div style={{ fontSize: '30px' }}>🎉</div>
+                                  <strong>Bàn 10</strong>
+                                  <p>Phù hợp cho nhóm lớn</p>
+                                </div>
+
                               </div>
 
                               {/* Lựa chọn ngày */}
@@ -1002,9 +1040,9 @@ export default function Banner({ onClose }) {
                                 {/* Sidebar */}
                                 <div
                                   style={{
-                                    backgroundColor: '#ffb74d',
+                                    backgroundColor: 'rgb(15 23 43)',
                                     padding: '20px',
-                                    width: '200px',
+                                    width: '250px',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'center',
@@ -1040,13 +1078,22 @@ export default function Banner({ onClose }) {
                                         padding: '10px',
                                         fontSize: '16px',
                                         cursor: 'pointer',
+                                        width: '200px',
+
                                         border: 'none',
-                                        backgroundColor: 'rgb(255, 183, 77)',
+                                        backgroundColor: 'rgb(254 161 22)',
                                         borderRadius: '5px',
                                       }}
                                     >
                                       🍔
-                                      <div>Món Gà</div>
+                                      <div>
+                                        <h2 style={{
+                                          fontSize: '20px',
+                                          fontFamily: "'Nunito', sans-serif",
+                                          color: '#0F172B',
+
+                                        }}>Món Gà</h2>
+                                      </div>
                                     </button>
 
                                     {selectedCategory === 'chicken' && (
@@ -1071,6 +1118,7 @@ export default function Banner({ onClose }) {
                                             borderRadius: '5px',
                                           }}
                                         >
+
                                           Món Gà Rán
                                         </button>
                                         <button
@@ -1099,12 +1147,20 @@ export default function Banner({ onClose }) {
                                         fontSize: '16px',
                                         cursor: 'pointer',
                                         border: 'none',
-                                        backgroundColor: 'rgb(255, 183, 77)',
+                                        backgroundColor: 'rgb(254 161 22)',
                                         borderRadius: '5px',
                                       }}
                                     >
                                       🍲
-                                      <div>Món Cá</div>
+                                      <div>
+                                        <h2 style={{
+                                          fontSize: '20px',
+                                          fontFamily: "'Nunito', sans-serif",
+                                          color: '#0F172B',
+
+                                        }}>Món Cá</h2>
+                                      </div>
+
                                     </button>
 
                                     {selectedCategory === 'fish' && (
@@ -1129,6 +1185,7 @@ export default function Banner({ onClose }) {
                                             borderRadius: '5px',
                                           }}
                                         >
+
                                           Món Cá Tươi
                                         </button>
                                         <button
@@ -1176,13 +1233,18 @@ export default function Banner({ onClose }) {
                                         fontSize: '16px',
                                         cursor: 'pointer',
                                         border: 'none',
-                                        backgroundColor: 'rgb(255, 183, 77)',
+                                        backgroundColor: 'rgb(254 161 22)',
                                         borderRadius: '5px',
                                       }}
                                     >
                                       🍲
                                       <div>
-                                        Món Cơm
+                                        <h2 style={{
+                                          fontSize: '20px',
+                                          fontFamily: "'Nunito', sans-serif",
+                                          color: '#0F172B',
+
+                                        }}>Món Cơm</h2>
                                       </div>
                                     </button>
                                     <button
@@ -1192,13 +1254,18 @@ export default function Banner({ onClose }) {
                                         fontSize: '16px',
                                         cursor: 'pointer',
                                         border: 'none',
-                                        backgroundColor: 'rgb(255, 183, 77)',
+                                        backgroundColor: 'rgb(254 161 22)',
                                         borderRadius: '5px',
                                       }}
                                     >
                                       🍲
                                       <div>
-                                        Món Bò
+                                        <h2 style={{
+                                          fontSize: '20px',
+                                          fontFamily: "'Nunito', sans-serif",
+                                          color: '#0F172B',
+
+                                        }}>Món Bò</h2>
                                       </div>
                                     </button>
                                   </div>
@@ -1214,53 +1281,61 @@ export default function Banner({ onClose }) {
                                       onClick={() => fetchMenuItems(1)} // Starters
                                       style={{
                                         padding: '10px',
-                                        backgroundColor: selectedCategoryId === 1 ? '#4CAF50' : '#ddd',
+                                        
+                                        backgroundColor: selectedCategoryId === 1 ? 'rgb(254, 161, 22)' : '#ddd',
                                         color: selectedCategoryId === 1 ? 'white' : 'black',
                                         borderRadius: '5px',
                                         cursor: 'pointer',
                                         border: 'none',
                                       }}
                                     >
-                                      Starters
+                                    🥗
+                                    <h3 style={{fontSize:'17px',width:'100px'}}> Starters</h3> 
+                                     
                                     </button>
                                     <button
                                       onClick={() => fetchMenuItems(2)} // Main Course
                                       style={{
                                         padding: '10px',
-                                        backgroundColor: selectedCategoryId === 2 ? '#4CAF50' : '#ddd',
+                                        backgroundColor: selectedCategoryId === 2 ? 'rgb(254, 161, 22)' : '#ddd',
                                         color: selectedCategoryId === 2 ? 'white' : 'black',
                                         borderRadius: '5px',
                                         cursor: 'pointer',
                                         border: 'none',
                                       }}
                                     >
-                                      Main Course
+                                    🍖
+                                    <h3 style={{fontSize:'17px',width:'100px'}}> Main Course</h3> 
+                                     
                                     </button>
                                     <button
                                       onClick={() => fetchMenuItems(3)} // Desserts
                                       style={{
                                         padding: '10px',
-                                        backgroundColor: selectedCategoryId === 3 ? '#4CAF50' : '#ddd',
+                                        backgroundColor: selectedCategoryId === 3 ? 'rgb(254, 161, 22)' : '#ddd',
                                         color: selectedCategoryId === 3 ? 'white' : 'black',
                                         borderRadius: '5px',
                                         cursor: 'pointer',
                                         border: 'none',
                                       }}
                                     >
-                                      Desserts
+                                    🍰
+                                    <h3 style={{fontSize:'17px',width:'100px'}}> Desserts</h3> 
+                                     
                                     </button>
                                     <button
                                       onClick={() => fetchMenuItems(4)} // Drinks
                                       style={{
                                         padding: '10px',
-                                        backgroundColor: selectedCategoryId === 4 ? '#4CAF50' : '#ddd',
+                                        backgroundColor: selectedCategoryId === 4 ? 'rgb(254, 161, 22)' : '#ddd',
                                         color: selectedCategoryId === 4 ? 'white' : 'black',
                                         borderRadius: '5px',
                                         cursor: 'pointer',
                                         border: 'none',
                                       }}
                                     >
-                                      Drinks
+                                      🥤
+                                     <h3 style={{fontSize:'17px',width:'100px'}}>Drinks</h3> 
                                     </button>
                                   </div>
 
@@ -1269,14 +1344,14 @@ export default function Banner({ onClose }) {
                                   {error && <p>{error}</p>}
 
                                   {/* Hiển thị các món trong danh mục đã chọn */}
-                                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', height: '90%', padding: '20px', backgroundColor: '#f5f5f5', }}>
+                                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '37px', height: '90%', padding: '20px', backgroundColor: '#f5f5f5',alignContent:'flex-start' }}>
                                     {menuItems.map((item) => (
                                       <div
                                         key={item.menuItemNo}
                                         onClick={() => toggleDish(item)}
                                         style={{
                                           width: '150px',
-                                          height: '183px',
+                                          height: '200px',
                                           border: reservationDetails.selectedDishes.some((dish) => dish.id === item.menuItemNo)
                                             ? '2px solid #4CAF50'
                                             : '1px solid #ddd',
@@ -1296,8 +1371,13 @@ export default function Banner({ onClose }) {
                                           />
                                         </div>
                                         <div style={{ marginTop: '10px' }}>
-                                          <strong>{item.itemName}</strong>
-                                          <p>${item.itemVariants[0]?.price?.toFixed(2) || 'N/A'}</p>
+                                          <span style={{
+                                            fontFamily: "'Nunito', sans-serif",
+                                            color: '#0F172B',
+                                            fontWeight: '800',
+                                            fontSize: '15px'
+                                          }}>{item.itemName}</span>
+                                          <p style={{color:'rgb(254, 161, 22)' }}>${item.itemVariants[0]?.price?.toFixed(2) || 'N/A'}</p>
                                         </div>
                                       </div>
                                     ))}
@@ -1340,37 +1420,42 @@ export default function Banner({ onClose }) {
                                         >
                                           <div style={{ flexGrow: 1 }}>
                                             <h7>{dish.itemName}</h7>
-                                            <div>
-                                              {' '}
-                                              <select
-                                                value={dish.selectedVariant} // Hiển thị variant hiện tại
-                                                onChange={(e) => {
-                                                  const newVariantId = parseInt(e.target.value, 10); // Lấy variantId mới
-                                                  const newVariant = dish.itemVariants.find(
-                                                    (variant) => variant.variantId === newVariantId
-                                                  );
-                                                  setReservationDetails((prev) => {
-                                                    const updatedDishes = prev.selectedDishes.map((item) =>
-                                                      item.menuItemNo === dish.menuItemNo
-                                                        ? { ...item, selectedVariant: newVariantId, price: newVariant.price }
-                                                        : item
+                                            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                              <div>${dish.price.toFixed(2)}</div>
+                                              <div>
+                                                {' '}
+                                                <select
+                                                  value={dish.selectedVariant} // Hiển thị variant hiện tại
+                                                  onChange={(e) => {
+                                                    const newVariantId = parseInt(e.target.value, 10); // Lấy variantId mới
+                                                    const newVariant = dish.itemVariants.find(
+                                                      (variant) => variant.variantId === newVariantId
                                                     );
-                                                    return { ...prev, selectedDishes: updatedDishes };
-                                                  });
-                                                }}
-                                              >
-                                                {dish.itemVariants.map((variant) => (
-                                                  <option key={variant.variantId} value={variant.variantId}>
-                                                    {`Size  `}
-                                                    {variant.sizeId === 1 && '6'}
-                                                    {variant.sizeId === 2 && '8'}
-                                                    {variant.sizeId === 3 && '1'}
-                                                  </option>
-                                                ))}
-                                              </select>
+                                                    setReservationDetails((prev) => {
+                                                      const updatedDishes = prev.selectedDishes.map((item) =>
+                                                        item.menuItemNo === dish.menuItemNo
+                                                          ? { ...item, selectedVariant: newVariantId, price: newVariant.price }
+                                                          : item
+                                                      );
+                                                      return { ...prev, selectedDishes: updatedDishes };
+                                                    });
+                                                  }}
+                                                >
+                                                  {dish.itemVariants.map((variant) => (
+                                                    <option key={variant.variantId} value={variant.variantId}>
+                                                      {`Size  `}
+                                                      {variant.sizeId === 1 && '6'}
+                                                      {variant.sizeId === 2 && '8'}
+                                                      {variant.sizeId === 3 && '1'}
+                                                    </option>
+                                                  ))}
+                                                </select>
+                                              </div>
+
                                             </div>
                                           </div>
-                                          <div>${dish.price.toFixed(2)}</div>
+
+
                                           <button
                                             onClick={() => toggleDish(dish)} // Xóa món
                                             style={{

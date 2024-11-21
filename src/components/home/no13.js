@@ -6,12 +6,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import './test.css';
-import { useNavigate } from 'react-router-dom';
+
 
 export default function Banner({ onClose }) {
   const el = useRef(null);
   const typed = useRef(null);
-  const navigate = useNavigate(); // chuyển trang 
+
   useEffect(() => {
     if (el.current) {
       // Khởi tạo Typed.js
@@ -268,31 +268,7 @@ export default function Banner({ onClose }) {
     customerPhone: '', // Thêm trường số điện thoại
     customerEmail: '', // Thêm trường email
     orderNote: '', // Thêm trường ghi chú nếu cần
-    customerId: null, // Thêm customerId
   });
-  // Lấy thông tin người dùng từ API khi có token
-  useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      axios
-        .get('https://t2305mpk320241031161932.azurewebsites.net/api/UserProfile/me', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          const userId = response.data.customerId; // Giả sử API trả về `id` cho customerId
-          setReservationDetails((prevDetails) => ({
-            ...prevDetails,
-            customerId: userId, // Thêm customerId vào reservationDetails
-          }));
-        })
-        .catch((error) => {
-          console.error('Error fetching user profile:', error);
-        });
-    }
-  }, []);
-
 
   // Hàm cập nhật thông tin
   const updateReservationDetails = (key, value) => {
@@ -414,10 +390,6 @@ export default function Banner({ onClose }) {
 
     fetchRestaurants();
   }, []);
-  const getRestaurantName = (restaurantId) => {
-    const restaurant = restaurants.find((restaurant) => restaurant.restaurantId === restaurantId);
-    return restaurant ? restaurant.restaurantName : 'Unknown';
-};
   // End nhà hàng
   // Popup chọn món
   const [menuItems, setMenuItems] = useState([]); // Lưu dữ liệu món ăn từ API
@@ -433,7 +405,6 @@ export default function Banner({ onClose }) {
       );
       setMenuItems(response.data || []); // Cập nhật danh sách món ăn
       setSelectedCategoryId(categoryId); // Đánh dấu loại món hiện tại
-      setSelectedType(null); // Xóa type khi chuyển sang tab khác
     } catch (err) {
       setError('Không thể tải dữ liệu món ăn.');
     } finally {
@@ -538,7 +509,7 @@ export default function Banner({ onClose }) {
     // Tính tiền món chính
     selectedDishes.forEach((dish) => {
       if (dish.categoryId === 4) {
-        totalCost += dish.price * numTables; // Nhân với số người tham dự
+        totalCost += dish.price * numPeople; // Nhân với số người tham dự
       } else {
         totalCost += dish.price * numTables; // Nhân với số bàn
       }
@@ -573,27 +544,19 @@ export default function Banner({ onClose }) {
     console.log('Reservation Details Updated:', reservationDetails);
   }, [reservationDetails]);
 
-  //debug phòng trừ lỗi không nhận dữ liệu nhập
-  const reservationDetailsRef = useRef(reservationDetails);
-
-  useEffect(() => {
-    reservationDetailsRef.current = reservationDetails;
-  }, [reservationDetails]);
-
   const handleCheckout = async () => {
     // Lấy snapshot hiện tại của reservationDetails
-    const currentReservationDetails = reservationDetailsRef.current;
-    // const currentReservationDetails = { ...reservationDetails };
+    const currentReservationDetails = { ...reservationDetails };
 
     // Kiểm tra dữ liệu trước khi gửi
-    // if (
-    //   !currentReservationDetails.customerName ||
-    //   !currentReservationDetails.customerPhone ||
-    //   !currentReservationDetails.customerEmail
-    // ) {
-    //   alert('Vui lòng nhập đầy đủ thông tin liên hệ!');
-    //   return;
-    // }
+    if (
+      !currentReservationDetails.customerName ||
+      !currentReservationDetails.customerPhone ||
+      !currentReservationDetails.customerEmail
+    ) {
+      alert('Vui lòng nhập đầy đủ thông tin liên hệ!');
+      return;
+    }
 
     console.log('Checkout Data:', currentReservationDetails); // Debug
 
@@ -603,7 +566,7 @@ export default function Banner({ onClose }) {
 
 
       const orderPayload = {
-        customerId: currentReservationDetails.customerId !== undefined ? currentReservationDetails.customerId : null, // Đảm bảo 'customerId' hợp lệ
+
         orderDate: new Date().toISOString().split('T')[0],
         deliveryDate: currentReservationDetails.date,
         name: currentReservationDetails.customerName,
@@ -629,9 +592,9 @@ export default function Banner({ onClose }) {
         orderPayload,
         { headers: { 'Content-Type': 'application/json' } }
       );
-      console.log('API Response:', orderResponse.data);
+
       const orderId = orderResponse.data.orderId;
-      console.log('Order ID:', orderId); // Debug
+
       // Gửi selectedDishes và additionalItems
       const allItems = [...currentReservationDetails.selectedDishes, ...currentReservationDetails.additionalItems];
 
@@ -653,9 +616,6 @@ export default function Banner({ onClose }) {
       }
 
       alert('Thanh toán thành công!');
-      console.log('Thanh toán thành công!');
-      // Điều hướng sang trang khác với orderId
-    navigate(`/orderDetail/${orderId}`);
     } catch (error) {
       // console.error('Lỗi khi thanh toán:', error);
       // alert('Thanh toán thất bại!');
@@ -670,53 +630,31 @@ export default function Banner({ onClose }) {
   };
   const [allMenuItems, setAllMenuItems] = useState([]); // Dữ liệu toàn bộ món
   const [selectedType, setSelectedType] = useState(null); // Loại món hiện tại (ví dụ: Cá Chiên, Cá Tươi)
-
-  // Fetch toàn bộ món để lọc theo loại (type)
-  const fetchFishMenuItems = async (type) => {
+  // Fetch toàn bộ menu để lọc theo type
+  const fetchAllMenuItems = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await axios.get(
         'https://t2305mpk320241031161932.azurewebsites.net/api/MenuItem/with-variants'
       );
-      setMenuItems(response.data.filter((item) => item.type === type) || []); // Lọc theo type
-      setSelectedCategoryId(null); // Xóa tab khi chọn loại món cá
-      setSelectedType(type); // Ghi nhận loại món cá
+      setAllMenuItems(response.data || []); // Lưu toàn bộ danh sách món ăn
     } catch (err) {
-      setError('Không thể tải dữ liệu món cá.');
-    } finally {
-      setLoading(false);
-    }
-  };
-  //End sidebar
-
-  //Tìm kiếm
-  const [searchQuery, setSearchQuery] = useState(''); // Từ khóa tìm kiếm
-  // Fetch menu items dựa trên từ khóa tìm kiếm
-  const fetchMenuItemsBySearch = async (query) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.get(
-        'https://t2305mpk320241031161932.azurewebsites.net/api/MenuItem/with-variants'
-      );
-      const filteredItems = response.data.filter(
-        (item) =>
-          item.itemName.toLowerCase().includes(query.toLowerCase()) &&
-          item.categoryId >= 1 &&
-          item.categoryId <= 4 // Chỉ lấy các món có categoryId từ 1 đến 4
-      );
-      setMenuItems(filteredItems || []);
-      setSelectedType(null); // Reset type khi tìm kiếm
-      setSelectedCategoryId(null); // Reset category khi tìm kiếm
-    } catch (err) {
-      setError('Không thể tải dữ liệu món ăn theo tìm kiếm.');
+      setError('Không thể tải dữ liệu món ăn.');
     } finally {
       setLoading(false);
     }
   };
 
+  // Gọi API để tải toàn bộ món khi component được mount
+  useEffect(() => {
+    fetchAllMenuItems();
+  }, []);
 
+  // Dữ liệu món hiển thị dựa trên type (Cá Chiên, Cá Tươi, v.v.)
+  const filteredMenuItems = selectedType
+    ? allMenuItems.filter((item) => item.type === selectedType)
+    : allMenuItems;
   return (
     <PayPalScriptProvider options={{ "client-id": "AedSI6RNn6tJKtT5d2BzI-hNqk6tvg7GOBMyvJVCsW_r7jscFtP2k76qOLIkNFRqy13sdyjvkU06v8tI", currency: "USD" }}>
       <div id="banner" className="banner full-screen-mode parallax">
@@ -1009,15 +947,6 @@ export default function Banner({ onClose }) {
                                 >
                                   <input
                                     type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => {
-                                      setSearchQuery(e.target.value);
-                                      if (e.target.value.trim() === '') {
-                                        setMenuItems([]); // Xóa kết quả khi không có từ khóa
-                                      } else {
-                                        fetchMenuItemsBySearch(e.target.value); // Fetch dữ liệu khi tìm kiếm
-                                      }
-                                    }}
                                     placeholder="Tìm kiếm món ăn..."
                                     style={{
                                       padding: '10px',
@@ -1058,7 +987,6 @@ export default function Banner({ onClose }) {
                                         }}
                                       >
                                         <button
-                                          onClick={() => fetchFishMenuItems('Gà Rán')} // Gọi API để lấy món Gà Rán
                                           style={{
                                             padding: '5px 10px',
                                             fontSize: '14px',
@@ -1071,7 +999,6 @@ export default function Banner({ onClose }) {
                                           Món Gà Rán
                                         </button>
                                         <button
-                                          onClick={() => fetchFishMenuItems('Gà hấp')} // Gọi API để lấy món Gà Hấp
                                           style={{
                                             padding: '5px 10px',
                                             fontSize: '14px',
@@ -1086,7 +1013,27 @@ export default function Banner({ onClose }) {
                                       </div>
                                     )}
 
-
+                                    {/* Hiển thị các mục con của Combo */}
+                                    {selectedCategory === 'combo' && (
+                                      <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                        {comboItems.map((item) => (
+                                          <button
+                                            key={item.id}
+                                            onClick={() => handleSubCategorySelect(item)}
+                                            style={{
+                                              padding: '5px 10px',
+                                              fontSize: '14px',
+                                              cursor: 'pointer',
+                                              border: 'none',
+                                              backgroundColor: '#ffe0b2',
+                                              borderRadius: '5px',
+                                            }}
+                                          >
+                                            {item.name}
+                                          </button>
+                                        ))}
+                                      </div>
+                                    )}
 
                                     {/* Accordion: Món Cá */}
                                     <button
@@ -1116,7 +1063,7 @@ export default function Banner({ onClose }) {
                                         }}
                                       >
                                         <button
-                                          onClick={() => fetchFishMenuItems('Cá tươi')} // Gọi API để lấy món Cá Tươi
+                                          onClick={() => setSelectedType('Cá Tươi')}
                                           style={{
                                             padding: '5px 10px',
                                             fontSize: '14px',
@@ -1129,7 +1076,7 @@ export default function Banner({ onClose }) {
                                           Món Cá Tươi
                                         </button>
                                         <button
-                                          onClick={() => fetchFishMenuItems('Cá Chiên')} // Gọi API để lấy món Cá Chiên
+                                          onClick={() => setSelectedType('Cá Chiên')}
                                           style={{
                                             padding: '5px 10px',
                                             fontSize: '14px',
@@ -1144,7 +1091,7 @@ export default function Banner({ onClose }) {
                                       </div>
                                     )}
                                     {/* Hiển thị các mục con của Bữa phụ */}
-                                    {/* {selectedCategory === 'side' && (
+                                    {selectedCategory === 'side' && (
                                       <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
                                         {sideItems.map((item) => (
                                           <button
@@ -1163,12 +1110,11 @@ export default function Banner({ onClose }) {
                                           </button>
                                         ))}
                                       </div>
-                                    )} */}
+                                    )}
 
                                     <button
-                                      onClick={() => fetchFishMenuItems('Cơm')} // Gọi API để lấy món Cơm
-                                      style={{
 
+                                      style={{
                                         padding: '10px',
                                         fontSize: '16px',
                                         cursor: 'pointer',
@@ -1183,7 +1129,7 @@ export default function Banner({ onClose }) {
                                       </div>
                                     </button>
                                     <button
-                                      onClick={() => fetchFishMenuItems('Bò ')} // Gọi API để lấy món Bò
+
                                       style={{
                                         padding: '10px',
                                         fontSize: '16px',
@@ -1387,12 +1333,12 @@ export default function Banner({ onClose }) {
                                       <p style={{ textAlign: 'center', color: '#888' }}>Chưa chọn món nào</p>
                                     )}
                                   </div>
-                                  <div style={{ fontWeight: 'bold', marginBottom: '20px', color: 'black' }}>
-                                    Tổng: $
-                                    {reservationDetails.selectedDishes
-                                      .reduce((total, dish) => total + dish.price, 0)
-                                      .toFixed(2)} (Giá của 1 bàn)
-                                  </div>
+                                  {/* <div style={{ fontWeight: 'bold', marginBottom: '20px', color: 'black' }}>
+                                  Tổng: $
+                                  {reservationDetails.selectedDishes
+                                    .reduce((total, dish) => total + dish.price, 0)
+                                    .toFixed(2)}
+                                </div> */}
                                   <button
                                     onClick={handleConfirm}
                                     style={{
@@ -1677,15 +1623,15 @@ export default function Banner({ onClose }) {
                                       </div>
                                       {/* //thanh toán */}
                                       {/* <button
-                                        onClick={handleCheckout}
-                                        style={{
-                                          fontSize: '36px',
-                                          color: 'black',
-                                          cursor: 'pointer',
-                                          border: 'none',
-                                          background: 'none',
-                                        }}
-                                      >Test</button> */}
+                                onClick={handleCheckout}
+                                style={{
+                                  fontSize: '36px',
+                                  color: 'black',
+                                  cursor: 'pointer',
+                                  border: 'none',
+                                  background: 'none',
+                                }}
+                              >Test</button> */}
                                       <PayPalButtons
                                         style={{ layout: 'vertical' }}
                                         createOrder={(data, actions) => {
@@ -1700,7 +1646,6 @@ export default function Banner({ onClose }) {
                                         }}
                                         onApprove={async (data, actions) => {
                                           const order = await actions.order.capture();
-                                          console.log('PayPal Order:', order);
                                           alert(`Transaction completed by ${order.payer.name.given_name}`);
                                           handleCheckout();
                                         }}
@@ -1780,7 +1725,7 @@ export default function Banner({ onClose }) {
 
                                       </form>
                                       <div style={{ marginTop: '20px', textAlign: 'left', fontSize: '16px' }}>
-                                        <strong>Địa điểm tổ chức:</strong> {getRestaurantName(reservationDetails.restaurant) || 'Loading...'}
+                                        <strong>Địa điểm tổ chức:</strong> {reservationDetails.restaurant || 'Loading...'}
                                         <br />
                                         <strong>Số người tham gia:</strong> {reservationDetails.numPeople}
                                         <br />

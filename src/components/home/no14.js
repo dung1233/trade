@@ -414,10 +414,6 @@ export default function Banner({ onClose }) {
 
     fetchRestaurants();
   }, []);
-  const getRestaurantName = (restaurantId) => {
-    const restaurant = restaurants.find((restaurant) => restaurant.restaurantId === restaurantId);
-    return restaurant ? restaurant.restaurantName : 'Unknown';
-};
   // End nhà hàng
   // Popup chọn món
   const [menuItems, setMenuItems] = useState([]); // Lưu dữ liệu món ăn từ API
@@ -629,9 +625,9 @@ export default function Banner({ onClose }) {
         orderPayload,
         { headers: { 'Content-Type': 'application/json' } }
       );
-      console.log('API Response:', orderResponse.data);
+
       const orderId = orderResponse.data.orderId;
-      console.log('Order ID:', orderId); // Debug
+
       // Gửi selectedDishes và additionalItems
       const allItems = [...currentReservationDetails.selectedDishes, ...currentReservationDetails.additionalItems];
 
@@ -654,8 +650,6 @@ export default function Banner({ onClose }) {
 
       alert('Thanh toán thành công!');
       console.log('Thanh toán thành công!');
-      // Điều hướng sang trang khác với orderId
-    navigate(`/orderDetail/${orderId}`);
     } catch (error) {
       // console.error('Lỗi khi thanh toán:', error);
       // alert('Thanh toán thất bại!');
@@ -1676,7 +1670,7 @@ export default function Banner({ onClose }) {
                                         Deposit Total (30% of Total Cost): $ {calculateDepositAmount()}
                                       </div>
                                       {/* //thanh toán */}
-                                      {/* <button
+                                      <button
                                         onClick={handleCheckout}
                                         style={{
                                           fontSize: '36px',
@@ -1685,7 +1679,7 @@ export default function Banner({ onClose }) {
                                           border: 'none',
                                           background: 'none',
                                         }}
-                                      >Test</button> */}
+                                      >Test</button>
                                       <PayPalButtons
                                         style={{ layout: 'vertical' }}
                                         createOrder={(data, actions) => {
@@ -1780,7 +1774,7 @@ export default function Banner({ onClose }) {
 
                                       </form>
                                       <div style={{ marginTop: '20px', textAlign: 'left', fontSize: '16px' }}>
-                                        <strong>Địa điểm tổ chức:</strong> {getRestaurantName(reservationDetails.restaurant) || 'Loading...'}
+                                        <strong>Địa điểm tổ chức:</strong> {reservationDetails.restaurant || 'Loading...'}
                                         <br />
                                         <strong>Số người tham gia:</strong> {reservationDetails.numPeople}
                                         <br />

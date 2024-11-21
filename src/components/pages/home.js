@@ -42,7 +42,7 @@ export default function Home() {
             <Team />
             {/* <Gallery /> */}
             {/* <Blog /> */}
-            <Price />
+            {/* <Price /> */}
             {/* <Reservation /> */}
             {/* Render MenuConfirmation nếu isMenuConfirmationOpen là true */}
             {isMenuConfirmationOpen && (

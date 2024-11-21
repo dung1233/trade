@@ -1,0 +1,90 @@
+.main-body {
+    margin-top: 20px;
+    color: rgb(40, 40, 40);
+    text-align: left;
+    padding: 15px;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: .5rem;
+    background-color: rgb(255, 255, 255);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.avatar {
+    border: 4px solid rgb(222, 88, 73);
+    margin-bottom: 20px;
+}
+
+.main-breadcrumb ol {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: .5rem;
+    background-color: rgb(255, 255, 255);
+}
+
+.breadcrumb-item a {
+    color: rgb(40, 40, 40);
+}
+
+hr {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.card {
+    margin-top: 20px; /* Tạo khoảng cách giữa phần "Recent Orders" và phần thông tin phía trên */
+    
+    border: 1px solid #ddd; /* Đặt viền cho thẻ card */
+    border-radius: 5px; /* Bo tròn các góc của thẻ */
+}
+
+.order-section {
+    padding: 10px;
+    overflow-x: auto; /* Đảm bảo bảng có thể cuộn ngang nếu tràn khung */
+}
+
+.order-table {
+    width: 100%; /* Đảm bảo bảng chiếm 100% chiều rộng khung chứa */
+    max-width: 100%; /* Giới hạn kích thước bảng không vượt quá khung */
+    border-collapse: collapse;
+}
+
+.order-table th,
+.order-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap; /* Ngăn nội dung xuống dòng */
+}
+
+.order-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.order-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.order-table tr:hover {
+    background-color: #e2e2e2;
+}
+
+/* Điều chỉnh kích thước các nút và khoảng cách trong bảng ở màn hình nhỏ */
+@media (max-width: 768px) {
+    .order-section {
+        padding: 0; /* Bỏ padding để tránh tràn thêm */
+        margin: 0;  /* Đảm bảo không có khoảng cách thừa */
+    }
+    
+    .order-table {
+        display: block; /* Hiển thị bảng như khối để tránh tràn viền */
+    }
+
+    .btn {
+        padding: 5px 8px;
+        font-size: 0.8rem;
+    }
+}

@@ -28,7 +28,7 @@ export default function Header() {
 
     window.addEventListener('scroll', handleScroll);
 
-    Events.scrollEvent.register('begin', function () {});
+    Events.scrollEvent.register('begin', function () { });
     Events.scrollEvent.register('end', function (to) {
       setActiveLink(to);
     });
@@ -50,12 +50,12 @@ export default function Header() {
           Authorization: `Bearer ${token}`,
         }
       })
-      .then(response => {
-        setFullName(response.data.name);
-      })
-      .catch(error => {
-        console.error('Error fetching user profile:', error);
-      });
+        .then(response => {
+          setFullName(response.data.name);
+        })
+        .catch(error => {
+          console.error('Error fetching user profile:', error);
+        });
     }
   }, []);
 
@@ -68,6 +68,9 @@ export default function Header() {
   const toggleDropdown = (e) => {
     e.preventDefault();
     setIsDropdownOpen(!isDropdownOpen);
+  };
+  const handleProfileClick = () => {
+    navigate('/profile'); // Điều hướng đến trang Profile
   };
 
   return (
@@ -97,12 +100,22 @@ export default function Header() {
                     </a>
                   </div>
                 </div>
-                <div id="navbar" className="navbar-collapse collapse">
-                  <ul className="nav navbar-nav navbar-right">
+                <div id="navbar" className="navbar-collapse collapse ">
+                  <ul className="nav navbar-nav  ">
                     {/* Scroll Links */}
                     <li className={activeLink === 'banner' ? 'active' : ''}>
                       <ScrollLink to="banner" spy={true} smooth={true} duration={500}>
-                        Home
+                        <RouterLink to="/" style={{
+                          all: 'unset',
+                          cursor: 'pointer',
+
+                          display: 'block',
+                          textAlign: 'left',
+                          color: 'inherit', // Đảm bảo giữ nguyên màu chữ
+                        }}>
+                          Home
+                        </RouterLink>
+
                       </ScrollLink>
                     </li>
                     <li className={activeLink === 'about' ? 'active' : ''}>
@@ -110,11 +123,11 @@ export default function Header() {
                         About us
                       </ScrollLink>
                     </li>
-                    <li className={activeLink === 'reservation' ? 'active' : ''}>
+                    {/* <li className={activeLink === 'reservation' ? 'active' : ''}>
                       <ScrollLink to="reservation" spy={true} smooth={true} duration={500}>
                         Reservation
                       </ScrollLink>
-                    </li>
+                    </li> */}
                     <li className={activeLink === 'menu' ? 'active' : ''}>
                       <ScrollLink to="menu" spy={true} smooth={true} duration={500}>
                         Menu
@@ -125,7 +138,7 @@ export default function Header() {
                         Team
                       </ScrollLink>
                     </li>
-                    <li className={activeLink === 'gallery' ? 'active' : ''}>
+                    {/* <li className={activeLink === 'gallery' ? 'active' : ''}>
                       <ScrollLink to="gallery" spy={true} smooth={true} duration={500}>
                         Gallery
                       </ScrollLink>
@@ -134,12 +147,12 @@ export default function Header() {
                       <ScrollLink to="blog" spy={true} smooth={true} duration={500}>
                         Blog
                       </ScrollLink>
-                    </li>
-                    <li className={activeLink === 'pricing' ? 'active' : ''}>
+                    </li> */}
+                    {/* <li className={activeLink === 'pricing' ? 'active' : ''}>
                       <ScrollLink to="pricing" spy={true} smooth={true} duration={500}>
                         Pricing
                       </ScrollLink>
-                    </li>
+                    </li> */}
                     <li className={activeLink === 'footer' ? 'active' : ''}>
                       <ScrollLink to="footer" spy={true} smooth={true} duration={500}>
                         Contact us
@@ -158,6 +171,25 @@ export default function Header() {
                         </a>
                         {isDropdownOpen && (
                           <ul className="dropdown-menu" style={{ display: 'block', position: 'absolute' }}>
+                            <li>
+
+                              {/* Nút Profile */}
+                              <button
+                                onClick={handleProfileClick} // Gọi điều hướng khi bấm
+                                className="logout-btn"
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  padding: '8px 16px',
+                                  width: '100%',
+                                  textAlign: 'left',
+                                }}
+                              >
+                                Profile
+                              </button>
+
+                            </li>
                             <li>
                               <button onClick={handleLogout} className="logout-btn" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px 16px', width: '100%', textAlign: 'left' }}>
                                 Logout

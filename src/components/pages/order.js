@@ -1,10 +1,10 @@
-import LoginBox from '../login/LoginBox';
-import LoginBanner from '../login/LoginBanner';
-// import Test from '../home/tes';
+import OrderBanner from '../Order/OrderBanner';
+import OrderDetail from '../Order/OrderDetail';
+
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from "react";
-export default function Login() {
+export default function Order() {
     useEffect(() => {
         AOS.init({
           duration: 1000,
@@ -15,9 +15,9 @@ export default function Login() {
       }, []);
     return(
         <div>
-            <LoginBanner />
-            <LoginBox/>
-            {/* <Test/> */}
+            <OrderBanner />
+            <OrderDetail/>
+           
         </div>
     )
 }

@@ -629,9 +629,9 @@ export default function Banner({ onClose }) {
         orderPayload,
         { headers: { 'Content-Type': 'application/json' } }
       );
-      console.log('API Response:', orderResponse.data);
+
       const orderId = orderResponse.data.orderId;
-      console.log('Order ID:', orderId); // Debug
+
       // Gửi selectedDishes và additionalItems
       const allItems = [...currentReservationDetails.selectedDishes, ...currentReservationDetails.additionalItems];
 
@@ -654,8 +654,6 @@ export default function Banner({ onClose }) {
 
       alert('Thanh toán thành công!');
       console.log('Thanh toán thành công!');
-      // Điều hướng sang trang khác với orderId
-    navigate(`/orderDetail/${orderId}`);
     } catch (error) {
       // console.error('Lỗi khi thanh toán:', error);
       // alert('Thanh toán thất bại!');

@@ -38,10 +38,7 @@ export default function OrderBanner() {
                   <span className="cursor">_</span>
                 </h1>
                 <h2>Everything is Possible </h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
-                  diem nonummy nibh euismod
-                </p>
+                
               </div>
               {/* <!-- end banner-cell --> */}
             </div>

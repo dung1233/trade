@@ -95,21 +95,21 @@ const OrderDetail = () => {
     6: 'Event Services',
   };
   // Hàm định dạng ngày
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng trong JS bắt đầu từ 0
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`; // Kết quả: 30/11/2024
-};
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng trong JS bắt đầu từ 0
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`; // Kết quả: 30/11/2024
+  };
 
-// Hàm định dạng giờ
-const formatTime = (timeString) => {
-  const time = new Date(timeString);
-  const hours = String(time.getHours()).padStart(2, '0');
-  const minutes = String(time.getMinutes()).padStart(2, '0');
-  return `${hours}:${minutes}`; // Kết quả: 14:00
-};
+  // Hàm định dạng giờ
+  const formatTime = (timeString) => {
+    const time = new Date(timeString);
+    const hours = String(time.getHours()).padStart(2, '0');
+    const minutes = String(time.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`; // Kết quả: 14:00
+  };
 
 
   return (
@@ -174,10 +174,13 @@ const formatTime = (timeString) => {
             <p><strong>Email:</strong> {order.email || 'example@example.com'}</p>
             <p><strong>Địa điểm tổ chức:</strong> {getRestaurantName(order.restaurant_id) || 'Loading...'}</p>
             <p><strong>Số người tham gia:</strong> {order.noOfPeople}</p>
-            <p><strong>Số người mỗi bàn:</strong> {(order.noOfPeople / order.noOfTable).toFixed(2)}</p>
+            <p>
+              <strong>Số người mỗi bàn:</strong> {Math.ceil(order.noOfPeople / order.noOfTable)}
+            </p>
+
             <p><strong>Số bàn:</strong> {order.noOfTable}</p>
             <p>
-            <strong>Thời gian tổ chức:</strong> {formatDate(order.deliveryDate)} vào lúc {formatTime(order.eventTime)}
+              <strong>Thời gian tổ chức:</strong> {formatDate(order.deliveryDate)} vào lúc {formatTime(order.eventTime)}
 
             </p>
             <p><strong>Note:</strong> {order.orderNote || ''}</p>

@@ -417,7 +417,7 @@ export default function Banner({ onClose }) {
   const getRestaurantName = (restaurantId) => {
     const restaurant = restaurants.find((restaurant) => restaurant.restaurantId === restaurantId);
     return restaurant ? restaurant.restaurantName : 'Unknown';
-};
+  };
   // End nhà hàng
   // Popup chọn món
   const [menuItems, setMenuItems] = useState([]); // Lưu dữ liệu món ăn từ API
@@ -651,11 +651,25 @@ export default function Banner({ onClose }) {
           { headers: { 'Content-Type': 'application/json' } }
         );
       }
+      // Gửi email thông báo sau khi các API trước đó thành công
+      try {
+        const emailResponse = await axios.post(
+          `https://t2305mpk320241031161932.azurewebsites.net/api/Mail/invoice/${orderId}`,
 
-      alert('Thanh toán thành công!');
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+
+        console.log('Email Response:', emailResponse.data);
+        alert('Thanh toán thành công và email đã được gửi!');
+      } catch (emailError) {
+        console.error('Gửi email thất bại:', emailError.response?.data || emailError.message);
+        alert(`Thanh toán thành công nhưng gửi email thất bại: ${JSON.stringify(emailError.response?.data || emailError.message)}`);
+      }
+
+      // alert('Thanh toán thành công!');
       console.log('Thanh toán thành công!');
       // Điều hướng sang trang khác với orderId
-    navigate(`/orderDetail/${orderId}`);
+      navigate(`/orderDetail/${orderId}`);
     } catch (error) {
       // console.error('Lỗi khi thanh toán:', error);
       // alert('Thanh toán thất bại!');
@@ -731,25 +745,14 @@ export default function Banner({ onClose }) {
                     <span className="cursor">_</span>
                   </h1>
                   <h2>Accidental appearances </h2>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
-                    diem nonummy nibh euismod
-                  </p>
+
                   <div style={{ position: 'relative' }}>
-                    <button
-                      style={{
-                        padding: '10px 20px',
-                        fontSize: '16px',
-                        cursor: 'pointer',
-                        border: 'none',
-                        backgroundColor: '#4CAF50',
-                        color: 'white',
-                        borderRadius: '5px',
-                      }}
-                      onClick={togglePopup}
-                    >
-                      Book my Table
-                    </button>
+
+                    <div className="book-btn">
+                      <a href="#reservation" className="table-btn hvr-underline-from-center" onClick={togglePopup}>
+                        Book my Table
+                      </a>
+                    </div>
 
                     {isPopupOpen && (
                       <div
@@ -1655,8 +1658,7 @@ export default function Banner({ onClose }) {
                                             <h3>
                                               {dish.categoryId === 1 ? 'STARTERS' : dish.categoryId === 2 ? 'MAIN DISHES' : dish.categoryId === 3 ? 'DESERTS' : 'DRINKS'}
                                             </h3>
-                                            <strong>{dish.itemName}</strong> x {reservationDetails.numTables} $
-                                            {dish.price.toFixed(2)}
+                                            <strong>{dish.itemName}</strong> x {reservationDetails.numTables} ${dish.price.toFixed(2)}
                                           </div>
                                         ))}
                                         {reservationDetails.additionalItems.map((item) => (

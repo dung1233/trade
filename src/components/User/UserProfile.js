@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../assets/css/UserProfile.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
@@ -15,6 +14,7 @@ const UserProfile = () => {
     });
 
     const [orders, setOrders] = useState([]);
+    
     useEffect(() => {
         const token = localStorage.getItem('jwtToken');
         const fetchUserData = async () => {
@@ -24,7 +24,7 @@ const UserProfile = () => {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     }
-                })
+                });
                 const userData = userInfoResponse.data;
                 setUser({
                     customerId: userData.customerId,
@@ -50,62 +50,30 @@ const UserProfile = () => {
             );
             const userOrders = ordersResponse.data.filter(order => order.customerId === customerId);
             setOrders(userOrders);
-            await fetchProductDetails();
         } catch (error) {
             console.error('Error fetching orders:', error);
         }
     };
 
-
-    // Handle Return Order based on status
-    const handleReturnOrder = async (order) => {
-        if (order.status !== 'Arrived') {
-            alert('Order has not arrived yet (Packed, not yet arrived).');
-            return;
-        }
-
-        try {
-            const response = await axios.post(
-                `https://projectky320240926105522.azurewebsites.net/api/Order/return/${order.orderId}`
-            );
-            if (response.status === 200 || response.status === 204) {
-                alert('Order return requested successfully!');
-                fetchUserOrders(user.userId);
-            }
-        } catch (error) {
-            console.error('Error returning order:', error);
-            alert('Unable to request return for the order.');
-        }
-    };
-
-    // Handle Cancel Order based on status
     const handleCancelOrder = async (order) => {
-        if (order.status !== 'pending') {
-            alert('Order has not been confirmed yet.');
+        // Check if the order is in a "Pending" state
+        if (order.status !== 'Pending') {
+            alert('You are only allowed to cancel orders with a status of "Pending".');
             return;
         }
 
         try {
-            const response = await axios.post(
-                `https://projectky320240926105522.azurewebsites.net/api/Order/cancel/${order.orderId}`
+            const response = await axios.put(
+                `https://t2305mpk320241031161932.azurewebsites.net/api/CustOrder/${order.orderId}/cancel`
             );
             if (response.status === 200 || response.status === 204) {
                 alert('Order cancelled successfully!');
-                fetchUserOrders(user.userId);
+                fetchUserOrders(user.customerId); // Fetch the latest orders to reflect changes
             }
         } catch (error) {
             console.error('Error cancelling order:', error);
             alert('Unable to cancel the order.');
         }
-    };
-
-    const formatDate = (isoDate) => {
-        if (!isoDate) return '';
-        const date = new Date(isoDate);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
     };
 
     const formatDateTime = (isoDate) => {
@@ -116,9 +84,8 @@ const UserProfile = () => {
         const year = date.getFullYear();
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `${day}/${month}/${year}  ${hours}:${minutes}`;
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
-
 
     return (
         <div className="container">
@@ -155,7 +122,6 @@ const UserProfile = () => {
                                     <div className="col-sm-9 text-secondary">{user.address || ''}</div>
                                 </div>
                                 <hr />
-
                             </div>
                         </div>
                     </div>
@@ -201,18 +167,11 @@ const UserProfile = () => {
                                                             </Link>
                                                         </button>
                                                     </td>
-                                                    {/* <td>
-                                                        <button
-                                                            onClick={() => handleReturnOrder(order)}
-                                                            className="btn btn-warning"
-                                                        >
-                                                            Return
-                                                        </button>
-                                                    </td> */}
                                                     <td>
                                                         <button
                                                             onClick={() => handleCancelOrder(order)}
                                                             className="btn btn-danger"
+                                                            disabled={order.status !== 'Pending'}
                                                         >
                                                             Cancel
                                                         </button>
